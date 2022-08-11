@@ -5,8 +5,18 @@ describe('Ship Factory Logic', () => {
   let testSubmarine;
 
   beforeEach(() => {
-    testCarrier = new Ship('carrier', [12, 13, 14, 15, 16]);
-    testSubmarine = new Ship('submarine', [1, 11, 21]);
+    testCarrier = new Ship('carrier', [
+      [1, 1],
+      [1, 2],
+      [1, 3],
+      [1, 4],
+      [1, 5],
+    ]);
+    testSubmarine = new Ship('submarine', [
+      [0, 0],
+      [1, 0],
+      [2, 0],
+    ]);
   });
 
   it('Correct Props', () => {
@@ -21,34 +31,40 @@ describe('Ship Factory Logic', () => {
   });
 
   it('Gets Hit Properly', () => {
-    testCarrier.hit(12);
-    expect(testCarrier.hits).toEqual([12]);
+    testCarrier.hit([1, 1]);
+    expect(testCarrier.hits).toEqual([[1, 1]]);
 
-    testSubmarine.hit(1);
-    expect(testSubmarine.hits).toEqual([1]);
+    testSubmarine.hit([0, 0]);
+    expect(testSubmarine.hits).toEqual([[0, 0]]);
 
-    testCarrier.hit(14);
-    expect(testCarrier.hits).toEqual([12, 14]);
+    testCarrier.hit([1, 3]);
+    expect(testCarrier.hits).toEqual([
+      [1, 1],
+      [1, 3],
+    ]);
 
-    testSubmarine.hit(21);
-    expect(testSubmarine.hits).toEqual([1, 21]);
+    testSubmarine.hit([2, 0]);
+    expect(testSubmarine.hits).toEqual([
+      [0, 0],
+      [2, 0],
+    ]);
   });
 
   it('Sinks Properly', () => {
-    testCarrier.hit(15);
+    testCarrier.hit([1, 4]);
     expect(testCarrier.isSunk()).toBe(false);
 
-    testSubmarine.hit(21);
+    testSubmarine.hit([2, 0]);
     expect(testSubmarine.isSunk()).toBe(false);
 
-    testCarrier.hit(13);
-    testCarrier.hit(14);
-    testCarrier.hit(12);
-    testCarrier.hit(16);
+    testCarrier.hit([1, 2]);
+    testCarrier.hit([1, 3]);
+    testCarrier.hit([1, 1]);
+    testCarrier.hit([1, 5]);
     expect(testCarrier.isSunk()).toBe(true);
 
-    testSubmarine.hit(1);
-    testSubmarine.hit(11);
+    testSubmarine.hit([0, 0]);
+    testSubmarine.hit([1, 0]);
     expect(testSubmarine.isSunk()).toBe(true);
   });
 });
