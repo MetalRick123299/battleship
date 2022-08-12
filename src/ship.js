@@ -8,6 +8,8 @@ export default class Ship {
 
   hit(pos) {
     this.hits.push(pos);
+    this.isSunk();
+    return this.hits;
   }
 
   isSunk() {

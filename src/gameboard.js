@@ -3,6 +3,7 @@ import Ship from './ship.js';
 export default class Gameboard {
   constructor() {
     this.grid = this.init();
+    this.ships = [];
   }
 
   init() {
@@ -21,7 +22,11 @@ export default class Gameboard {
   checkGrid() {
     let mainArr = [];
     this.grid.forEach((ele) => {
-      const newArr = ele.map((item) => (item.hasShip ? 'X' : ''));
+      const newArr = ele.map((item) => {
+        const hasShip = item.hasShip ? 'X' : '';
+        const isShot = item.isShot ? 'S' : '';
+        return `${hasShip}${isShot}`;
+      });
       mainArr.push(newArr);
     });
 
@@ -29,7 +34,7 @@ export default class Gameboard {
   }
 
   createShip(startingCoords, ship, isX_Axis) {
-    const ships = {
+    const shipsLength = {
       carrier: 5,
       battleship: 4,
       destroyer: 3,
@@ -42,7 +47,7 @@ export default class Gameboard {
     if (this.grid[startingCoords[0]][startingCoords[1]].hasShip)
       return 'Other Ship in Starting';
 
-    for (let i = 0; i < ships[ship]; i++) {
+    for (let i = 0; i < shipsLength[ship]; i++) {
       let newCoords = startingCoords.slice(0);
       const index = isX_Axis ? 1 : 0;
 
@@ -67,6 +72,23 @@ export default class Gameboard {
       this.grid[y][x].ship = newShip;
     }
 
+    this.ships.push(newShip);
+
     return shipPos;
+  }
+
+  receiveAttack(coords) {
+    const coordsObj = this.grid[coords[0]][coords[1]];
+
+    coordsObj.isShot = true;
+    if (coordsObj.hasShip) {
+      return coordsObj.ship.hit(coords);
+    } else {
+      return coordsObj.isShot;
+    }
+  }
+
+  isAllSunk() {
+    return this.ships.every((ship) => ship.isSunk());
   }
 }

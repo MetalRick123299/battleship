@@ -72,7 +72,30 @@ describe('Gameboard Logic', () => {
     expect(testGameboard.grid[0][4].hasShip).toBe(false);
   });
 
-  it('Receives Attack Properly', () => {});
+  it('Receives Attack Properly', () => {
+    testGameboard.createShip([4, 4], 'carrier', false);
 
-  it('Reports If All Ships Sunk', () => {});
+    expect(testGameboard.receiveAttack([5, 4])).toEqual([[5, 4]]);
+
+    expect(testGameboard.receiveAttack([3, 4])).toEqual(true);
+
+    expect(testGameboard.grid[5][4].isShot).toBe(true);
+    expect(testGameboard.grid[3][4].isShot).toBe(true);
+  });
+
+  it('Reports If All Ships Sunk', () => {
+    const carrierPos = testGameboard.createShip([4, 4], 'carrier', false);
+    const submarinePos = testGameboard.createShip([9, 0], 'submarine', true);
+
+    expect(testGameboard.isAllSunk()).toBe(false);
+
+    carrierPos.forEach((pos) => {
+      testGameboard.receiveAttack(pos);
+    });
+    submarinePos.forEach((pos) => {
+      testGameboard.receiveAttack(pos);
+    });
+
+    expect(testGameboard.isAllSunk()).toBe(true);
+  });
 });
