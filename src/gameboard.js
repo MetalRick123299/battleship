@@ -23,8 +23,8 @@ export default class Gameboard {
     let mainArr = [];
     this.grid.forEach((ele) => {
       const newArr = ele.map((item) => {
-        const hasShip = item.hasShip ? 'X' : '';
-        const isShot = item.isShot ? 'S' : '';
+        const hasShip = item.hasShip ? 'X' : ' ';
+        const isShot = item.isShot ? 'S' : ' ';
         return `${hasShip}${isShot}`;
       });
       mainArr.push(newArr);
@@ -67,7 +67,6 @@ export default class Gameboard {
       const y = currPos[0];
       const x = currPos[1];
 
-      console.log(`${y}`);
       this.grid[y][x].hasShip = true;
       this.grid[y][x].ship = newShip;
     }
@@ -79,6 +78,8 @@ export default class Gameboard {
 
   receiveAttack(coords) {
     const coordsObj = this.grid[coords[0]][coords[1]];
+
+    if (coordsObj.isShot) return false;
 
     coordsObj.isShot = true;
     if (coordsObj.hasShip) {

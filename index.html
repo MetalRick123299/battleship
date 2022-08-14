@@ -7,8 +7,21 @@
     <title>Battleship</title>
   </head>
   <body>
-    Hello World
+    <div class="overlay active"></div>
+    <div class="active" id="popUp">
+      <h1>Place your _SHIPNAME</h1>
+      <button>Rotate</button>
+      <div class="grid"></div>
+    </div>
 
-    <script type="module" src="/main.js"></script>
+    <header>
+      <h1 class="title">BATTLESHIP</h1>
+      <h2 class="textArea">Textarea</h2>
+    </header>
+    <main>
+      <div class="grid" id="playerGrid"></div>
+      <div class="grid" id="aiGrid"></div>
+    </main>
   </body>
+  <script type="module" src="/main.js"></script>
 </html>
