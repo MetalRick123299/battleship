@@ -7,3 +7,5 @@ grids.forEach((grid) => {
     grid.appendChild(newGridItem);
   }
 });
+
+console.log('grids');
