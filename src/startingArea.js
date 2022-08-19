@@ -1,7 +1,8 @@
 import Gameboard from './gameboard';
+import { setUpMainGame } from './mainGame';
 
 let isVertical = false;
-const playerGameboard = new Gameboard();
+export const playerGameboard = new Gameboard();
 
 const rotate = document.querySelector('#rotate');
 
@@ -77,6 +78,8 @@ function switchingToGame() {
 
   popUp.classList.remove('active');
   overlay.classList.remove('active');
+
+  setUpMainGame();
 }
 
 function getGridElementsPosition(index) {
@@ -93,7 +96,7 @@ function getGridElementsPosition(index) {
   return { row: rowPosition, column: colPosition, index: index };
 }
 
-function getNodeIndex(elm) {
+export function getNodeIndex(elm) {
   var c = elm.parentNode.children,
     i = 0;
   for (; i < c.length; i++) if (c[i] == elm) return i;
