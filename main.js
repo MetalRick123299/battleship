@@ -1,4 +1,4 @@
-import './dist/style.css';
+import './src/style.css';
 import Gameboard from './src/gameboard';
 import Ai from './src/players';
 import Ship from './src/ship';
